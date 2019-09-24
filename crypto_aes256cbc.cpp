@@ -397,3 +397,37 @@ unsigned char *CRYPTO_AES256CBC_hex_dump(unsigned char *dst, unsigned char *src,
 	
     return dst;
 }
+
+
+void CRYPTO_AES256CTR_crypt(CRYPTO_AES256CBC_CTX* ctx, unsigned char* buf, unsigned  int length)
+{
+	unsigned char buffer[AES_BLOCKLEN];
+	
+	unsigned int i;
+	int bi;
+	for (i = 0, bi = AES_BLOCKLEN; i < length; ++i, ++bi)
+	{
+		if (bi == AES_BLOCKLEN) /* we need to regen xor compliment in buffer */
+		{
+			
+			memcpy(buffer, ctx->Iv, AES_BLOCKLEN);
+			Cipher((state_t*)buffer,ctx->RoundKey);
+			
+			/* Increment Iv and handle overflow */
+			for (bi = (AES_BLOCKLEN - 1); bi >= 0; --bi)
+			{
+				/* inc will overflow */
+				if (ctx->Iv[bi] == 255)
+				{
+					ctx->Iv[bi] = 0;
+					continue;
+				} 
+				ctx->Iv[bi] += 1;
+				break;   
+			}
+			bi = 0;
+		}
+		
+		buf[i] = (buf[i] ^ buffer[bi]);
+	}
+}
