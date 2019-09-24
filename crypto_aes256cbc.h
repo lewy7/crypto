@@ -19,4 +19,6 @@ void CRYPTO_AES256CBC_encrypt(CRYPTO_AES256CBC_CTX* ctx, unsigned char* buf, uns
 void CRYPTO_AES256CBC_decrypt(CRYPTO_AES256CBC_CTX* ctx, unsigned char* buf, unsigned  int length);
 unsigned char *CRYPTO_AES256CBC_hex_dump(unsigned char *dst, unsigned char *src, size_t len);
 
+void CRYPTO_AES256CTR_crypt(CRYPTO_AES256CBC_CTX* ctx, unsigned char* buf, unsigned  int length);
+
 #endif
