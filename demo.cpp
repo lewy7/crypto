@@ -104,5 +104,6 @@ int main()
 	CRYPTO_AES256CBC_hex_dump(hex_dump,data,64);
 	printf("aes-256-cbc after decrypt [%s]\n",hex_dump);
 	
+	void CRYPTO_AES256CTR_crypt(CRYPTO_AES256CBC_CTX* ctx, unsigned char* buf, unsigned  int length);
 	return 0;
 }
